@@ -6,6 +6,5 @@
 
 ## 效果
 
-![](https://github.com/zlbest/carousel/tree/master/img/1.jpg)
-
-![](https://github.com/zlbest/carousel/tree/master/img/2.jpg)
+![](https://github.com/zlbest/carousel/tree/master/img/1.png)
+![](https://github.com/zlbest/carousel/tree/master/img/2.png)
