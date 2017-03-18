@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <title>图片轮播原生实现</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                background: #000;
+            }
+            .carousel {
+                position: relative;
+                width: 600px;
+                height: 400px;
+                background: #fff;
+                margin: 20px auto;
+            }
+            .item {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 600px;
+                height: 340px;
+                overflow: hidden;
+                box-sizing: border-box;
+            }
+            .item li {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 600px;
+                height: 340px;
+                display: inline-block;
+                box-sizing: border-box;
+                opacity: 0;
+                transition: opacity 0.5s linear
+            }
+            .item li img {
+                width: 600px;
+                height: 340px;
+                box-sizing: border-box;
+            }
+            .item li.active {
+                opacity: 1;
+            }
+            .indicator {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 600px;
+                height: 60px;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+                overflow: hidden;
+                box-sizing: border-box;
+                padding: 3px;
+            }
+            .indicator li {
+                cursor: pointer;
+                list-style-type: none;
+                margin-right: 5px;
+            }
+            .indicator li.active img {
+                opacity: 1;
+                border: 1px solid #f60;
+            }
+            .indicator li img{
+                width: 50px;
+                height: 50px;
+                border: 1px solid saddlebrown;
+                opacity: 0.5;
+                box-sizing: border-box;
+            }
+            .control {
+                text-decoration: none;
+                display: inline-block;
+                width: 30px;
+                height: 50px;
+                text-align: center;
+                line-height: 50px;
+                font-size: 30px;
+                color: #e3e3e3;
+                font-weight: bold;
+                border-radius: 10px;
+                z-index: 3;
+                cursor: pointer;
+                border: 1px solid white;
+                background-color: #070707;
+                opacity: 0.3;
+            }
+            .left {
+                position: absolute;
+                left: 0;
+                top: 170px;
+            }
+            .right {
+                position: absolute;
+                right: 0;
+                top: 170px;
+            }
+        </style>
+    </head>
+<body>
+<div id="myCarousel" class="carousel">
+    <div class="item" id="item">
+        <li class="active"><img src="img/1.jpg"></li>
+        <li><img src="img/2.jpg"></li>
+        <li><img src="img/3.jpg"></li>
+        <li><img src="img/4.jpg"></li>
+        <li><img src="img/5.jpg"></li>
+        <li><img src="img/6.jpg"></li>
+        <li><img src="img/7.jpg"></li>
+        <li><img src="img/8.jpg"></li>
+        <li><img src="img/9.jpg"></li>
+        <li><img src="img/10.jpg"></li>
+    </div>
+    <ol class="indicator" id="indicator">
+        <li class="active"><img src="img/1.jpg"></li>
+        <li><img src="img/2.jpg"></li>
+        <li><img src="img/3.jpg"></li>
+        <li><img src="img/4.jpg"></li>
+        <li><img src="img/5.jpg"></li>
+        <li><img src="img/6.jpg"></li>
+        <li><img src="img/7.jpg"></li>
+        <li><img src="img/8.jpg"></li>
+        <li><img src="img/9.jpg"></li>
+        <li><img src="img/10.jpg"></li>
+    </ol>
+    <a class="control left" id="pre" href="#myCarousel">&lt; </a>
+    <a class="control right" id="next" href="#myCarousel">&gt; </a>
+</div>
+
+<script>
+    var carousel=document.getElementById('myCarousel');
+    var items=document.getElementById('item');
+    var indicators=document.getElementById('indicator');
+    var imgs=items.getElementsByTagName('li');
+    var indic=indicators.getElementsByTagName('li');
+    var pre=document.getElementById('pre');
+    var next=document.getElementById('next');
+    var i=index=0;
+    var play=null;
+    function show(a){
+        for(i=0;i<indic.length;i++ ){
+            indic[i].className='';
+            indic[a].className='active';
+        }
+        for(i=0;i<imgs.length;i++){
+            imgs[i].style.opacity=0;
+            imgs[a].style.opacity=1;
+        }
+    }
+    for(i=0;i<indic.length;i++){
+        indic[i].index=i;
+        indic[i].addEventListener('mouseover', function(){
+            show(this.index);
+            clearInterval(play);
+            index=this.index;
+        });
+    }
+    function autoPlay(){
+        play=setInterval(function(){
+            index++;
+            index = index>=imgs.length ? 0:index;
+            show(index);
+        },1000)
+    }
+    autoPlay();
+    pre.addEventListener('click', function () {
+        index=index-1>=0 ? index-1:imgs.length-1;
+        show(index);
+    });
+    next.addEventListener('click', function () {
+        index=index+1<imgs.length ? index+1:0;
+        show(index);
+    });
+    carousel.addEventListener('mouseover',function(){
+        clearInterval(play);
+    });
+    carousel.addEventListener('mouseout',function(){
+        autoPlay();
+    });
+</script>
+</body>
+</html>
